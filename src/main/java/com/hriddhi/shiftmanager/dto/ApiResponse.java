@@ -1,9 +1,9 @@
 package com.hriddhi.shiftmanager.dto;
 
 public class ApiResponse {
-    private String status;
-    private String message;
-    private Object data;
+    private final String status;
+    private final String message;
+    private final Object data;
     public ApiResponse(String  status, String message, Object data){
         this.status=status;
         this.message=message;

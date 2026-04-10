@@ -5,8 +5,7 @@ import com.hriddhi.shiftmanager.dto.ApiResponse;
 import com.hriddhi.shiftmanager.service.ShiftService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
+
 @RestController
 @RequestMapping("/shifts")
 public class ShiftController {

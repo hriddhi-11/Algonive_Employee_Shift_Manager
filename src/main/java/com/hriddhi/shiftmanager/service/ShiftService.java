@@ -23,7 +23,8 @@ public class ShiftService {
 
 
         for (Users u : userRepository.findAll()) {
-            if (u.username.equals(shift.employeeName)) {
+            if (u.getUsername().equals(shift.getUser().getUsername())) {
+                shift.setUser(u);
                 found = true;
                 break;
             }
@@ -33,19 +34,19 @@ public class ShiftService {
             throw new BadRequestException("User not found!");
         }
 
-        LocalTime newStart = LocalTime.parse(shift.startTime);
-        LocalTime newEnd = LocalTime.parse(shift.endTime);
+        LocalTime newStart = LocalTime.parse(shift.getStartTime());
+        LocalTime newEnd = LocalTime.parse(shift.getEndTime());
 
         if (newStart.compareTo(newEnd) >= 0) {
             throw new BadRequestException("Invalid shift time!");
         }
 
-        List<Shift> shifts = shiftRepository.findByEmployeeName(shift.employeeName);
+        List<Shift> shifts = shiftRepository.findByUserId(shift.getUser());
         for (Shift s : shifts) {
-            if (s.employeeName.equals(shift.employeeName)) {
+            if (s.getUser().getUsername().equals(shift.getUser().getUsername())) {
 
-                LocalTime existingStart = LocalTime.parse(s.startTime);
-                LocalTime existingEnd = LocalTime.parse(s.endTime);
+                LocalTime existingStart = LocalTime.parse(s.getStartTime());
+                LocalTime existingEnd = LocalTime.parse(s.getEndTime());
 
                 if (newStart.isBefore(existingEnd) && newEnd.isAfter(existingStart)) {
                     throw new BadRequestException("Shift conflict detected!");
@@ -53,7 +54,7 @@ public class ShiftService {
             }
         }
       shiftRepository.save(shift);
-        return "Shift assigned to " + shift.employeeName;
+        return "Shift assigned to " + shift.getUser().getUsername();
     }
     public List<Shift> getShifts() {
         return shiftRepository.findAll();

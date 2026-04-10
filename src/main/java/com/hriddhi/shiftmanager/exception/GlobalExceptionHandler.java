@@ -22,4 +22,8 @@ public class GlobalExceptionHandler {
     public ApiResponse handleGeneric(Exception ex) {
         return new ApiResponse("ERROR", "Something went wrong", null);
     }
+    @ExceptionHandler(BadRequestException.class)
+    public ApiResponse handleBadRequest(BadRequestException ex) {
+        return new ApiResponse("ERROR", ex.getMessage(), null);
+    }
 }
